@@ -1,0 +1,16 @@
+
+.navigation {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 30px;
+}
+.navigation p {
+    margin: 10px 10px 10px;
+    text-decoration: underline;
+    /* color: blue; */
+}
+.navigation p:hover {
+   opacity: 0.7;
+   cursor: pointer;
+
+}
