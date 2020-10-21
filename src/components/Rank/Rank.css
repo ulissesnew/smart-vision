@@ -1,0 +1,17 @@
+
+
+.rank {
+    position: relative;
+    justify-content: center;
+    text-align: center;
+    top: 20vh;
+    margin: 0 auto;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    word-spacing: 5px;
+
+}
+.rank span {
+    background-color:var(--two);
+    padding: 10px;
+}

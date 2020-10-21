@@ -1,17 +1,21 @@
 
 .App {
-  /* text-align: center; */
-  background: linear-gradient(90deg ,rgb(67, 138, 245), rgb(186, 186, 218),rgb(57, 165, 236));
+  background: linear-gradient(90deg ,var(--three),var(--one),var(--five));
   height: 100vh;
+  font-family: 'Merriweather', serif;
 }
-
 
 .App-header {
- 
-  font-size: calc(10px + 2vmin);
+  /* font-size: calc(10px + 2vmin); */
 }
 
-.App-link {
-  color: #61dafb;
+
+.particles {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  /* z-index: -1; */
 }
 
