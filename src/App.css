@@ -1,7 +1,7 @@
 
 .App {
   background: linear-gradient(90deg ,var(--three),var(--one),var(--five));
-  height: 100vh;
+  /* height: 100vh; */
   font-family: 'Merriweather', serif;
 }
 
