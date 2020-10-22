@@ -3,6 +3,7 @@
   background: linear-gradient(90deg ,var(--three),var(--one),var(--five));
   /* height: 100vh; */
   font-family: 'Merriweather', serif;
+  height: 150vh;
 }
 
 .App-header {

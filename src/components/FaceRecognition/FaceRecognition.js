@@ -1,10 +1,13 @@
 import React from 'react'
 import classes from './FaceRecognition.module.css'
 
-const FaceRecognition = () => {
+const FaceRecognition = ({ imageUrl, box }) => {
     return (
         <div className={classes.face}>
-            <img src='https://images.unsplash.com/photo-1553531384-397c80973a0b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60' alt='output' />
+            <div style={{ position: "absolute", margin: "0 auto " }}  >
+                <img width='500px' height='100%' id='imputimage' src={imageUrl} alt='output' />
+                <div style={{ top: box.topRow, bottom: box.bottomRow, left: box.leftCol, right: box.rightCol }} className={classes.bounding_boxes}></div>
+            </div>
         </div>
     )
 }

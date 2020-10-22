@@ -5,7 +5,7 @@
     justify-content: center;
     text-align: center;
     top: 15vh;
-    margin: 0 auto;
+    margin: 0 auto 15px; 
     font-family: 'Montserrat', sans-serif;
     color: white;
     word-spacing: 5px;
