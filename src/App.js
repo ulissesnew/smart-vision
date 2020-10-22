@@ -1,3 +1,4 @@
+
 import React from 'react';
 import './App.css';
 import Navigation from './components/Navigation/Navigation.js'
@@ -6,11 +7,12 @@ import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm'
 import Rank from './components/Rank/Rank'
 import Particles from 'react-particles-js';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition'
+require('dotenv').config();
 
 const Clarifai = require('clarifai');
 
 const app = new Clarifai.App({
-  apiKey: 'bc1631a3cd3842a4b0caf2739774cc51'
+  apiKey: process.env.REACT_APP_API_KEY
 });
 
 const particlesOptions =
