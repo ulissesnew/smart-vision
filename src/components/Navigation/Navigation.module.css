@@ -1,8 +1,9 @@
 
-.navigation {
+.nav {
     display: flex;
     justify-content: flex-end;
     padding: 0 30px;
+    z-index: 1;
 }
 .navigation p {
     margin: 10px 10px 10px;

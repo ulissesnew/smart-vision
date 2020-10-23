@@ -1,14 +1,31 @@
 import React from 'react'
 import classes from './Navigation.module.css';
 
-const Navigation = () => {
-    return (
-        <nav className={classes.navigation}>
-            <p >Sign Out</p>
-            <p>Sign In</p>
+// import SignIn from '../SignIn/SignIn';
 
-        </nav>
-    )
+const Navigation = ({ onRouteChange, isSignedIn }) => {
+
+    if (isSignedIn) {
+        return (
+            <div className={classes.nav}>
+                <nav className={classes.navigation} >
+                    <p onClick={() => onRouteChange("signout")} > Sign Out</p>
+                </nav>
+            </div>
+        )
+    } else {
+        return (
+            <div className={classes.nav}>
+                <nav className={classes.navigation} >
+                    <p onClick={() => onRouteChange("signin")} > Sign In</p>
+                </nav>
+                <nav className={classes.navigation} >
+                    <p onClick={() => onRouteChange("register")} > Register</p>
+                </nav>
+            </div>
+        )
+    }
+
 }
 
 export default Navigation
