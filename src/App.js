@@ -69,6 +69,7 @@ class App extends React.Component {
       isSignedIn: false
     }
   }
+
   onInputChange = (event) => {
     this.setState({ input: event.target.value })
   }
