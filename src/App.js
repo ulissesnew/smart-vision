@@ -10,13 +10,6 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition'
 import SignIn from './components/SignIn/SignIn'
 import Register from './components/Register/Register'
 
-// import {
-//   Switch,
-//   Route,
-//   Link,
-
-// } from "react-router-dom";
-
 require('dotenv').config();
 
 const Clarifai = require('clarifai');
@@ -66,8 +59,29 @@ class App extends React.Component {
       submit: false,
       box: {},
       route: 'signin',
-      isSignedIn: false
+      isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        entries: 0,
+        email: '',
+        // password: '',
+        joined: ''
+      }
     }
+  }
+  loadUser = (data) => {
+    this.setState(
+      {
+        user: {
+          id: data.id,
+          name: data.name,
+          entries: data.entries,
+          email: data.email,
+          // password: data.,
+          joined: data.joined
+        }
+      })
   }
 
   onInputChange = (event) => {
@@ -125,7 +139,7 @@ class App extends React.Component {
           {route === 'signin' ?
             <SignIn onRouteChange={this.onRouteChange} /> :
             route === 'register' ?
-              <Register onRouteChange={this.onRouteChange} /> :
+              <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser} /> :
               <>
                 <Logo />
                 <Rank />
