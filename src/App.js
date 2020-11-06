@@ -10,13 +10,6 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition'
 import SignIn from './components/SignIn/SignIn'
 import Register from './components/Register/Register'
 
-// import {
-//   Switch,
-//   Route,
-//   Link,
-
-// } from "react-router-dom";
-
 require('dotenv').config();
 
 const Clarifai = require('clarifai');
@@ -66,9 +59,31 @@ class App extends React.Component {
       submit: false,
       box: {},
       route: 'signin',
-      isSignedIn: false
+      isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        entries: 0,
+        email: '',
+        // password: '',
+        joined: ''
+      }
     }
   }
+  loadUser = (data) => {
+    this.setState(
+      {
+        user: {
+          id: data.id,
+          name: data.name,
+          entries: data.entries,
+          email: data.email,
+          // password: data.,
+          joined: data.joined
+        }
+      })
+  }
+
   onInputChange = (event) => {
     this.setState({ input: event.target.value })
   }
@@ -76,9 +91,27 @@ class App extends React.Component {
     event.preventDefault();
     app.models.predict(Clarifai.FACE_DETECT_MODEL,
       this.state.input)
-      .then((response) => {
-        console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
-        this.displayFaceBox(this.calculateFaceLocation(response))
+      .then(response => {
+        if (response) {
+          fetch('http://localhost:3000/image',
+            {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: JSON.stringify({ id: this.state.user.id })
+            }
+          ).then(response => response.json())
+            .then(count => {
+              this.setState(Object.assign(this.state.user, {
+                entries: count
+              }))
+            })
+        }
+        // console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
+        this.displayFaceBox(this.calculateFaceLocation(response));
+
       })
       .catch(error => console.log(error)
       )
@@ -122,12 +155,12 @@ class App extends React.Component {
         <header className="App-header">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           {route === 'signin' ?
-            <SignIn onRouteChange={this.onRouteChange} /> :
+            <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser} /> :
             route === 'register' ?
-              <Register onRouteChange={this.onRouteChange} /> :
+              <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser} /> :
               <>
                 <Logo />
-                <Rank />
+                <Rank entries={this.state.user.entries} />
                 <ImageLinkForm
                   change={this.onInputChange}
                   text={input}
