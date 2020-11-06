@@ -32,10 +32,11 @@ class SignIn extends Component {
             })
         })
             .then(response => response.json())
-            .then(data => {
-                console.log(data);
+            .then(user => {
+                // console.log(user);
 
-                if (data === 'success') {
+                if (user !== 'User Not found') {
+                    this.props.loadUser(user)
                     this.props.onRouteChange('home')
                 }
 

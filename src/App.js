@@ -91,9 +91,27 @@ class App extends React.Component {
     event.preventDefault();
     app.models.predict(Clarifai.FACE_DETECT_MODEL,
       this.state.input)
-      .then((response) => {
-        console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
-        this.displayFaceBox(this.calculateFaceLocation(response))
+      .then(response => {
+        if (response) {
+          fetch('http://localhost:3000/image',
+            {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: JSON.stringify({ id: this.state.user.id })
+            }
+          ).then(response => response.json())
+            .then(count => {
+              this.setState(Object.assign(this.state.user, {
+                entries: count
+              }))
+            })
+        }
+        // console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
+        this.displayFaceBox(this.calculateFaceLocation(response));
+
       })
       .catch(error => console.log(error)
       )
@@ -137,12 +155,12 @@ class App extends React.Component {
         <header className="App-header">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           {route === 'signin' ?
-            <SignIn onRouteChange={this.onRouteChange} /> :
+            <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser} /> :
             route === 'register' ?
               <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser} /> :
               <>
                 <Logo />
-                <Rank />
+                <Rank entries={this.state.user.entries} />
                 <ImageLinkForm
                   change={this.onInputChange}
                   text={input}
