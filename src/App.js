@@ -166,11 +166,7 @@ class App extends React.Component {
                   text={input}
                   click={this.onButtonSubmit}
                 />
-                {/* <Switch>
-            <Route path='/register' component='' />
-            <Route path='/signin' component={SignIn} />
-            <Route path='/' component='' />
-          </Switch> */}
+         
                 <FaceRecognition imageUrl={imageUrl} box={box} />
               </>}
         </header>

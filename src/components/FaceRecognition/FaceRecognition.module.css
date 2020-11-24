@@ -18,3 +18,10 @@
     cursor: pointer;
  
 }
+
+@media(max-width:600px){
+    .face img {
+        width: 300px;
+        margin-top: -100px;
+    }
+}
