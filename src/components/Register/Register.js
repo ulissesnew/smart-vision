@@ -8,9 +8,19 @@ class Register extends React.Component {
         this.state = {
             name: '',
             email: '',
-            password: ''
+            password: '',
+            success: false,
+            message: 'kkk'
         }
 
+    }
+    componentDidMount(){
+        this.onMessage(this.state.message)
+    }
+    onMessage = (error) => {
+        if(this.state.success === false){
+            this.setState({message: error.password})
+        }
     }
     onNameChange = (event) => {
         this.setState({ name: event.target.value })
@@ -37,22 +47,40 @@ class Register extends React.Component {
             })
             .then(response => response.json())
             .then(user => {
-                if (user) {
-                    this.props.loadUser(user)
+                console.log(user);
+                this.setState({message: user.email ? user.email : user.password})
+                if (user[1].success) {
+                    this.setState({success: true})
+                    this.props.loadUser(user[0])
                     this.props.onRouteChange('home')
                 }
+
             })
-            .catch(err => console.log(err)
+            .catch(err => {
+                console.log(err);
+            }
             )
 
     }
-
+     
     // = ({ submit, changeEmail, changeName, changePassword, onRouteChange }) =>
     render() {
+        console.log(this.state.success);
+        const message = (
+            <small style={
+                {
+                // color: 'white', 
+                margin:'5px auto 5px',
+            }
+            }>
+                    {this.state.message}
+            </small>
+        )
         return (
             <div>
                 <aside className={classes.form} >
                     <h1>Register</h1>
+                    {this.state.success ? null : message}
                     <label htmlFor='name'>Name:</label>
                     <input onChange={this.onNameChange} id='name' type='text' placeholder='name' required />
 
@@ -64,6 +92,7 @@ class Register extends React.Component {
                     <span onClick={() => this.props.onRouteChange('signin')} >Sign In</span>
 
                 </aside>
+                
 
             </div>
         )

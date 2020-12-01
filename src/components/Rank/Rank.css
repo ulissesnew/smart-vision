@@ -4,7 +4,7 @@
     position: relative;
     justify-content: center;
     text-align: center;
-    top: 25vh;
+    /* top: 25vh; */
     margin: 0 auto 15px; 
     font-family: 'Montserrat', sans-serif;
     color: white;
@@ -14,4 +14,9 @@
 .rank span {
     background-color:var(--two);
     padding: 10px;
+}
+@media(max-width:500px){
+    .rank{
+        top: 10vh;
+    }
 }

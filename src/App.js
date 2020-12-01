@@ -49,26 +49,27 @@ const particlesOptions =
     }
   }
 }
-
+const initialState = 
+{
+  input: '',
+  imageUrl: 'https://images.unsplash.com/photo-1601758260892-a62c486ace97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60',
+  submit: false,
+  box: {},
+  route: 'signin',
+  isSignedIn: false,
+  user: {
+    id: '',
+    name: '',
+    entries: 0,
+    email: '',
+    // password: '',
+    joined: ''
+  }
+}
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {
-      input: '',
-      imageUrl: 'https://images.unsplash.com/photo-1601758260892-a62c486ace97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60',
-      submit: false,
-      box: {},
-      route: 'signin',
-      isSignedIn: false,
-      user: {
-        id: '',
-        name: '',
-        entries: 0,
-        email: '',
-        // password: '',
-        joined: ''
-      }
-    }
+    this.state = initialState
   }
   loadUser = (data) => {
     this.setState(
@@ -104,9 +105,12 @@ class App extends React.Component {
             }
           ).then(response => response.json())
             .then(count => {
+              console.log(count);
               this.setState(Object.assign(this.state.user, {
                 entries: count
               }))
+            }).catch(err => {
+              console.log(err)
             })
         }
         // console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
@@ -137,7 +141,7 @@ class App extends React.Component {
   onRouteChange = (route) => {
     this.setState({ route: route })
     if (route === 'signout') {
-      this.setState({ isSignedIn: false })
+      this.setState(initialState)
     } else if (route === 'home') {
       this.setState({ isSignedIn: true })
     } else {
@@ -160,17 +164,13 @@ class App extends React.Component {
               <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser} /> :
               <>
                 <Logo />
-                <Rank entries={this.state.user.entries} />
+                <Rank entries={this.state.user.entries} name={this.state.user.name}/>
                 <ImageLinkForm
                   change={this.onInputChange}
                   text={input}
                   click={this.onButtonSubmit}
                 />
-                {/* <Switch>
-            <Route path='/register' component='' />
-            <Route path='/signin' component={SignIn} />
-            <Route path='/' component='' />
-          </Switch> */}
+         
                 <FaceRecognition imageUrl={imageUrl} box={box} />
               </>}
         </header>
