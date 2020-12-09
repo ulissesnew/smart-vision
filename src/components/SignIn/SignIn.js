@@ -7,7 +7,8 @@ class SignIn extends Component {
         super(props)
         this.state = {
             signInEmail: '',
-            signInPassword: ''
+            signInPassword: '',
+            message: ''
         }
     }
 
@@ -33,27 +34,32 @@ class SignIn extends Component {
         })
             .then(response => response.json())
             .then(user => {
-                if (user.id) {
-                    this.props.loadUser(user)
-                    this.props.onRouteChange('home')
-                }
+                    if (user[0]) {
+                        this.props.loadUser(user[0])
+                        this.props.onRouteChange('home')
+                    }else 
+                        console.log(user.message);
+                        this.setState({message: user.message})
+            })
+            .catch(err => {
+                console.log(err);
+              
             })
     }
 
     render() {
-        // const { submit, changeEmail, changePassword, onRouteChange } = this.props
-
         return (
             <div>
                 <form className={classes.form} >
                     <h1>SignIn</h1>
+                    {this.state.message ? <small style={{margin:'0 0 10px',color:'red'}}>{this.state.message}</small> : null}
+
                     <label htmlFor='email'>Email:</label>
                     <input
                         onChange={this.onEmailChange}
                         id='email'
                         type='email'
                         placeholder='email'
-                        // value={this.state.signInEmail}
                         required
                     />
                     <label htmlFor='password'>Password:</label>
@@ -62,7 +68,6 @@ class SignIn extends Component {
                         id='password'
                         type='password'
                         placeholder='password'
-                        // value={this.state.signInPassword}
                         required
                     />
                     <input type='submit'

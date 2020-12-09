@@ -10,13 +10,13 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition'
 import SignIn from './components/SignIn/SignIn'
 import Register from './components/Register/Register'
 
-require('dotenv').config();
+// require('dotenv').config();
 
-const Clarifai = require('clarifai');
+// const Clarifai = require('clarifai');
 
-const app = new Clarifai.App({
-  apiKey: process.env.REACT_APP_API_KEY
-});
+// const app = new Clarifai.App({
+//   apiKey: process.env.REACT_APP_API_KEY
+// });
 
 const particlesOptions =
 {
@@ -65,6 +65,7 @@ const initialState =
     // password: '',
     joined: ''
   }
+
 }
 class App extends React.Component {
   constructor() {
@@ -90,8 +91,17 @@ class App extends React.Component {
   }
   onButtonSubmit = (event) => {
     event.preventDefault();
-    app.models.predict(Clarifai.FACE_DETECT_MODEL,
-      this.state.input)
+    this.setState({imageUrl: this.state.input})
+    fetch('http://localhost:3000/imageurl', 
+    {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({input: this.state.input})
+    })
+    .then(response => response.json())
+
       .then(response => {
         if (response) {
           fetch('http://localhost:3000/image',

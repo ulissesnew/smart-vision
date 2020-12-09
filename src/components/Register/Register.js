@@ -10,7 +10,7 @@ class Register extends React.Component {
             email: '',
             password: '',
             success: false,
-            message: 'kkk'
+            message: ''
         }
 
     }
@@ -47,8 +47,18 @@ class Register extends React.Component {
             })
             .then(response => response.json())
             .then(user => {
+                const messageDisplay = (user) => {
+                    if(user.email){
+                       return user.email
+                    }
+                    else if (user.password){
+                        return user.password
+                    } else {
+                        return user.name
+                    }
+                }
                 console.log(user);
-                this.setState({message: user.email ? user.email : user.password})
+                this.setState({message: messageDisplay(user) })
                 if (user[1].success) {
                     this.setState({success: true})
                     this.props.loadUser(user[0])
@@ -71,6 +81,7 @@ class Register extends React.Component {
                 {
                 // color: 'white', 
                 margin:'5px auto 5px',
+                color:'red'
             }
             }>
                     {this.state.message}
