@@ -10,13 +10,7 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition'
 import SignIn from './components/SignIn/SignIn'
 import Register from './components/Register/Register'
 
-// require('dotenv').config();
 
-// const Clarifai = require('clarifai');
-
-// const app = new Clarifai.App({
-//   apiKey: process.env.REACT_APP_API_KEY
-// });
 
 const particlesOptions =
 {
@@ -62,7 +56,6 @@ const initialState =
     name: '',
     entries: 0,
     email: '',
-    // password: '',
     joined: ''
   }
 
@@ -80,7 +73,6 @@ class App extends React.Component {
           name: data.name,
           entries: data.entries,
           email: data.email,
-          // password: data.,
           joined: data.joined
         }
       })
@@ -166,7 +158,7 @@ class App extends React.Component {
           className='particles'
           params={particlesOptions}
         />
-        <header className="App-header">
+        <header >
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           {route === 'signin' ?
             <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser} /> :

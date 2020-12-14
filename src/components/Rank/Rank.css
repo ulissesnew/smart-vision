@@ -4,12 +4,10 @@
     position: relative;
     justify-content: center;
     text-align: center;
-    /* top: 25vh; */
     margin: 0 auto 15px; 
     font-family: 'Montserrat', sans-serif;
     color: white;
     word-spacing: 5px;
-
 }
 .rank span {
     background-color:var(--two);

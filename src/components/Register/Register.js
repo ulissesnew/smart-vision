@@ -42,7 +42,7 @@ class Register extends React.Component {
                 body: JSON.stringify({
                     name: this.state.name,
                     email: this.state.email,
-                    password: this.state.password
+                    password: this.state.password,
                 })
             })
             .then(response => response.json())
