@@ -1,15 +1,10 @@
 
 .App {
   background: linear-gradient(90deg ,var(--three),var(--one),var(--five));
-  /* height: 100vh; */
   font-family: 'Merriweather', serif;
-  /* font-family: 'Montserrat', sans-serif; */
   height: 150vh;
 }
 
-.App-header {
-  /* font-size: calc(10px + 2vmin); */
-}
 
 
 .particles {
@@ -18,7 +13,5 @@
   right: 0;
   left: 0;
   bottom: 0;
-  z-index: -1;
-  /* z-index: -1; */
 }
 

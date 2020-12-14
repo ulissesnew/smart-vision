@@ -10,13 +10,7 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition'
 import SignIn from './components/SignIn/SignIn'
 import Register from './components/Register/Register'
 
-require('dotenv').config();
 
-const Clarifai = require('clarifai');
-
-const app = new Clarifai.App({
-  apiKey: process.env.REACT_APP_API_KEY
-});
 
 const particlesOptions =
 {
@@ -62,9 +56,9 @@ const initialState =
     name: '',
     entries: 0,
     email: '',
-    // password: '',
     joined: ''
   }
+
 }
 class App extends React.Component {
   constructor() {
@@ -79,7 +73,6 @@ class App extends React.Component {
           name: data.name,
           entries: data.entries,
           email: data.email,
-          // password: data.,
           joined: data.joined
         }
       })
@@ -90,8 +83,17 @@ class App extends React.Component {
   }
   onButtonSubmit = (event) => {
     event.preventDefault();
-    app.models.predict(Clarifai.FACE_DETECT_MODEL,
-      this.state.input)
+    this.setState({imageUrl: this.state.input})
+    fetch('http://localhost:3000/imageurl', 
+    {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({input: this.state.input})
+    })
+    .then(response => response.json())
+
       .then(response => {
         if (response) {
           fetch('http://localhost:3000/image',
@@ -156,7 +158,7 @@ class App extends React.Component {
           className='particles'
           params={particlesOptions}
         />
-        <header className="App-header">
+        <header >
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           {route === 'signin' ?
             <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser} /> :
