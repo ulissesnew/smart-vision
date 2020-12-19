@@ -22,7 +22,7 @@ class SignIn extends Component {
 
     onSubmitSignIn = (event) => {
         event.preventDefault()
-        fetch('http://localhost:3000/signin', {
+        fetch('https://smart-vision-app.herokuapp.com/signin', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
