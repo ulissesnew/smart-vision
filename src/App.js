@@ -84,7 +84,7 @@ class App extends React.Component {
   onButtonSubmit = (event) => {
     event.preventDefault();
     this.setState({imageUrl: this.state.input})
-    fetch('http://localhost:3000/imageurl', 
+    fetch('https://smart-vision-app.herokuapp.com/imageurl', 
     {
       method: 'post',
       headers: {
@@ -96,7 +96,7 @@ class App extends React.Component {
 
       .then(response => {
         if (response) {
-          fetch('http://localhost:3000/image',
+          fetch('https://smart-vision-app.herokuapp.com/image',
             {
               method: 'PUT',
               headers: {
