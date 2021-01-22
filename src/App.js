@@ -48,7 +48,7 @@ const initialState =
   input: '',
   imageUrl: 'https://images.unsplash.com/photo-1601758260892-a62c486ace97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60',
   submit: false,
-  box: {},
+  boxes: [],
   route: 'signin',
   isSignedIn: false,
   user: {
@@ -84,7 +84,7 @@ class App extends React.Component {
   onButtonSubmit = (event) => {
     event.preventDefault();
     this.setState({imageUrl: this.state.input})
-    fetch('https://smart-vision-app.herokuapp.com/imageurl', 
+    fetch('http://localhost:3000/imageurl', 
     {
       method: 'post',
       headers: {
@@ -96,7 +96,7 @@ class App extends React.Component {
 
       .then(response => {
         if (response) {
-          fetch('https://smart-vision-app.herokuapp.com/image',
+          fetch('http://localhost:3000/image',
             {
               method: 'PUT',
               headers: {
@@ -125,20 +125,23 @@ class App extends React.Component {
 
   }
   calculateFaceLocation = (data) => {
-    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box
     const image = document.getElementById('imputimage');
     const width = Number(image.width);
     const height = Number(image.height);
-    return {
-      leftCol: clarifaiFace.left_col * width,
-      rightCol: width - (clarifaiFace.right_col * width),
-      topRow: clarifaiFace.top_row * height,
-      bottomRow: height - (clarifaiFace.bottom_row * height)
-    }
+    return data.outputs[0].data.regions.map(box => {
+      const clarifaiFace = box.region_info.bounding_box;
+      return {
+        leftCol: clarifaiFace.left_col * width,
+        rightCol: width - (clarifaiFace.right_col * width),
+        topRow: clarifaiFace.top_row * height,
+        bottomRow: height - (clarifaiFace.bottom_row * height)
+      }
+    })
+   
   }
-  displayFaceBox = (box) => {
-    console.log(box);
-    this.setState({ box: box })
+  displayFaceBox = (boxes) => {
+    console.log(boxes);
+    this.setState({ boxes: boxes })
   }
   onRouteChange = (route) => {
     this.setState({ route: route })
@@ -151,7 +154,7 @@ class App extends React.Component {
     }
   }
   render() {
-    const { route, isSignedIn, input, imageUrl, box } = this.state
+    const { route, isSignedIn, input, imageUrl, boxes } = this.state
     return (
       <div className="App">
         <Particles
@@ -173,7 +176,7 @@ class App extends React.Component {
                   click={this.onButtonSubmit}
                 />
          
-                <FaceRecognition imageUrl={imageUrl} box={box} />
+                <FaceRecognition imageUrl={imageUrl} boxes={boxes} />
               </>}
         </header>
       </div>

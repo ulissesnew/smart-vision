@@ -33,7 +33,7 @@ class Register extends React.Component {
     }
     onSubmitSignIn = (event) => {
         event.preventDefault()
-        fetch('https://smart-vision-app.herokuapp.com/register',
+        fetch('http://localhost:3000/register',
             {
                 method: 'POST',
                 headers: {
