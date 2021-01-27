@@ -1,5 +1,6 @@
 
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Navigation from './components/Navigation/Navigation.js'
 import Logo from './components/Logo/Logo.js'
@@ -9,8 +10,8 @@ import Particles from 'react-particles-js';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition'
 import SignIn from './components/SignIn/SignIn'
 import Register from './components/Register/Register'
-
-
+import Modal from './components/Modal/Modal';
+import Profile from './components/Profile/Profile'
 
 const particlesOptions =
 {
@@ -50,14 +51,17 @@ const initialState =
   submit: false,
   boxes: [],
   route: 'signin',
-  isSignedIn: false,
+  isSignedIn: true,
   user: {
     id: '',
     name: '',
     entries: 0,
     email: '',
-    joined: ''
-  }
+    joined: '',
+    age: '',
+    pet: ''
+  },
+  isProfileOpen: false
 
 }
 class App extends React.Component {
@@ -144,17 +148,29 @@ class App extends React.Component {
     this.setState({ boxes: boxes })
   }
   onRouteChange = (route) => {
-    this.setState({ route: route })
     if (route === 'signout') {
-      this.setState(initialState)
+      return this.setState(initialState)
     } else if (route === 'home') {
-      this.setState({ isSignedIn: true })
-    } else {
-
+      this.setState({ isSignedIn: true, route:'home' })
+    } else if(route === 'register'){
+        this.setState({isSignIn:true,route:'register'})
+    } else if(route === 'signin'){
+      this.setState({route:'signin'})
     }
   }
+  toggleModal = () => {
+    console.log(this.state.isProfileOpen)
+    this.setState( prevState => {
+      return {...prevState, isProfileOpen: !prevState.isProfileOpen}} )
+  }
+  onSaveProfile = () => {
+    console.log('save profile')
+    this.setState({route:'home', isProfileOpen:false})
+    
+  }
   render() {
-    const { route, isSignedIn, input, imageUrl, boxes } = this.state
+    const { route, isSignedIn, input, imageUrl, boxes, isProfileOpen,user } = this.state
+   
     return (
       <div className="App">
         <Particles
@@ -162,22 +178,35 @@ class App extends React.Component {
           params={particlesOptions}
         />
         <header >
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation toggleModal={this.toggleModal} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+            {isProfileOpen && <Modal >
+                  <Profile toggleModal={this.toggleModal} 
+                  isProfileOpen={isProfileOpen} 
+                  saveProfile={this.onSaveProfile}
+                   onRouteChange={this.onRouteChange}
+                   userInfo={this.state.user}
+                   />
+            </Modal> }
           {route === 'signin' ?
             <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser} /> :
             route === 'register' ?
               <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser} /> :
               <>
                 <Logo />
-                <Rank entries={this.state.user.entries} name={this.state.user.name}/>
+                
+                <Rank entries={user.entries} name={user.name}/>
                 <ImageLinkForm
                   change={this.onInputChange}
                   text={input}
                   click={this.onButtonSubmit}
                 />
          
-                <FaceRecognition imageUrl={imageUrl} boxes={boxes} />
-              </>}
+                <FaceRecognition imageUrl={imageUrl} boxes={boxes} /> 
+              </> 
+              }
+              
+                
+             
         </header>
       </div>
     );

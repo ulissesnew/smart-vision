@@ -1,15 +1,16 @@
 import React from 'react'
 import classes from './Navigation.module.css';
+import ProfileIcon from '../Profile/ProfileIcon';
 
 // import SignIn from '../SignIn/SignIn';
 
-const Navigation = ({ onRouteChange, isSignedIn }) => {
+const Navigation = ({ onRouteChange, isSignedIn,toggleModal }) => {
 
     if (isSignedIn) {
         return (
             <div className={classes.nav}>
                 <nav className={classes.navigation} >
-                    <p onClick={() => onRouteChange("signout")} > Sign Out</p>
+                    <ProfileIcon isOpen='' clickRouteChange={onRouteChange} toggleModal={toggleModal}/>
                 </nav>
             </div>
         )
