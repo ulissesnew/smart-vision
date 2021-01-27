@@ -1,0 +1,118 @@
+.profile {
+    border: 1px solid silver;
+    width: 100%; 
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    align-items: center;
+    background-color: rgb(247, 243, 243);
+    border-radius: 5px;
+    box-shadow: 0 5px 8px rgb(56, 55, 55);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    padding: 5px 15px;
+    opacity: 0.9;
+    letter-spacing: 1px;
+    line-height: 1.5;
+}
+.closeModal {
+    width: 25px;
+    height: 25px;
+    background-color: rgb(73, 71, 71);
+    color: white;
+    border-radius: 50%;
+    box-shadow: 0 5px 8px rgb(56, 55, 55);
+    float: right;
+}
+.closeModal:hover {
+    opacity: 0.5;
+}
+
+.content {
+    border: 1px solid rgb(252, 245, 245);
+    padding: 15px 30px;
+    border-radius: 5px;
+    box-shadow: 0 5px 8px rgb(56, 55, 55);
+    color: rgb(102, 99, 99);
+    padding: 20px 55px;
+
+}
+
+.content img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid rgb(2, 61, 109);
+    margin: 10px 36% 25px;
+
+}
+.info {
+    color: rgb(67, 67, 71);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 10px;
+    
+}
+.form input {
+    box-shadow: 0 5px 8px rgb(80, 77, 77);
+    border: 0;
+    margin-bottom: 10px;
+}
+.form input:nth-child(6) {
+    margin-bottom: 30px;
+}
+
+.form input:focus {
+    border: 1px solid silver;
+    background-color: #262629;
+    color: white;
+}
+.form label {
+    font-weight: bold;
+}
+
+.send {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    
+}
+.submit {
+    background-color: rgb(59, 100, 189);
+    color: rgb(255, 255, 255);
+    box-shadow: 0 5px 8px rgb(44, 44, 44);
+    font-weight: bold;
+    padding: 5px 30px;
+}
+
+.submit:hover {
+    opacity: 0.9;
+    background-color: rgb(245, 236, 236);
+    color: rgb(29, 49, 167);
+}
+.cancel {
+    background-color: red;
+    box-shadow: 0 5px 8px rgb(44, 44, 44);
+    color: rgb(250, 243, 243);
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 30px;
+
+}
+.cancel:hover {
+   opacity: 0.9;
+   color: rgb(221, 9, 9);
+   background-color: rgb(248, 246, 246);
+}
+
+
+
+span {
+    font-weight: bold;
+}

@@ -1,0 +1,14 @@
+
+#modal-root {
+    position: relative;
+    z-index: 999;
+    /* background-color: white; */
+    color: #2b2929;
+    bottom: 145vh;
+    /* left: 50%; */
+    margin: 0  auto;
+    text-align: center;
+    /* display: flex; */
+    /* justify-content: right; */
+    
+}
