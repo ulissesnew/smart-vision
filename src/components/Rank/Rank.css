@@ -4,17 +4,17 @@
     position: relative;
     justify-content: center;
     text-align: center;
-    margin: 0 auto 15px; 
+    margin: 20px  auto 15px; 
     font-family: 'Montserrat', sans-serif;
     color: white;
     word-spacing: 5px;
 }
 .rank span {
     background-color:var(--two);
-    padding: 10px;
+    padding: 5px;
 }
 @media(max-width:500px){
     .rank{
-        top: 10vh;
+        top: 12vh;
     }
 }

@@ -9,19 +9,20 @@
     position: relative;
     border-radius: 5px;
     padding: 10px 15px ;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: bold;
-    line-height: 2;
-    letter-spacing: 1px;
+    /* line-height: 2; */
+    /* letter-spacing: 1px; */
 }
 
 .form  input {
-    height: 50px;
+    /* height: 50px; */
     border: 3px solid  var(--two);
+    width: 60%;
 }
 
 .form  button {
-    height: 50px;
+    height: 40px;
     background-color: var(--three);
     color: white;
     font-size: 1.2rem;
@@ -32,7 +33,7 @@
     cursor: pointer;
 }
 .form p {
-    text-align: center;
+    /* text-align: center; */
 }
 
 .inputs {
@@ -43,13 +44,13 @@
 
     background-size: 75px 100px;
     background-color: var(--two);
-    padding: 20px 10px;
+    padding: 10px 5px;
     box-shadow: 0 5px 8px rgb(66, 66, 66);
     
 }
 @media(min-width:700px){
     .form button{
-    width: 100px;
+    /* width: 100px; */
 
     }
     .form input {
@@ -62,6 +63,6 @@
 @media(max-width:600px){
     .form {
         width: 90%;
-        margin-top: 70px;
+        margin-top: 65px;
     }
 }

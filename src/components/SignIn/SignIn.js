@@ -19,6 +19,9 @@ class SignIn extends Component {
     onPasswordChange = (event) => {
         this.setState({ signInPassword: event.target.value })
     }
+    saveAuthTokenIdSession = (token) => {
+        window.sessionStorage.setItem('token',token);
+    }
 
     onSubmitSignIn = (event) => {
         event.preventDefault()
@@ -32,21 +35,35 @@ class SignIn extends Component {
                 password: this.state.signInPassword
             })
         })
-            .then(response => response.json())
-            .then(user => {
-                    if (user[0]) {
-                        this.props.loadUser(user[0])
-                        this.props.onRouteChange('home')
-                    }else 
-                        console.log(user.message);
-                        this.setState({message: user.message})
-            })
-            .catch(err => {
-                console.log(err);
-              
-            })
+        .then(response => response.json())
+        .then(user => {
+            if (user.userId && user.success === true) {
+                this.saveAuthTokenIdSession(user.token)
+                console.log(user)
+                fetch(`http://localhost:3000/profile/${user.userId}`, {
+                    method: 'get',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': user.token
+                    }
+                    })
+                    .then(res => res.json())
+                    .then(user => {
+                        if(user && user.email){
+                            console.log(user)
+                            this.props.loadUser(user)
+                            this.props.onRouteChange('home')
+                        }else {
+                            console.log('user not loaded')
+                        }
+                    })
+                    .catch(err => console.log(err))
+            }else {
+                console.log(user.message);
+                this.setState({message: user.message})
+            }
+        })
     }
-
     render() {
         return (
             <div>
