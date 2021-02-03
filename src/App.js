@@ -51,7 +51,7 @@ const initialState =
   submit: false,
   boxes: [],
   route: 'signin',
-  isSignedIn: true,
+  isSignedIn: false,
   user: {
     id: '',
     name: '',
@@ -68,6 +68,44 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = initialState
+  }
+  componentDidMount(){
+    const token = window.sessionStorage.getItem('token');
+    if(token){
+      // this.setState({isSignedIn:true, route:'home'})
+      fetch('http://localhost:3000/signin', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':  token
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data && data.id){
+          fetch(`http://localhost:3000/profile/${data.id}`, {
+            method: 'get',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': token
+            }
+          })
+          .then(res => res.json())
+          .then(user => {
+            if(user && user.email){
+              console.log(user)
+
+              this.loadUser(user)
+              this.onRouteChange('home')
+            }else {
+              console.log('user not loaded')
+            }
+          })
+        }
+      })
+      .catch(err => console.log(err))
+    }
+    // alert(token)
   }
   loadUser = (data) => {
     this.setState(
@@ -88,11 +126,15 @@ class App extends React.Component {
   onButtonSubmit = (event) => {
     event.preventDefault();
     this.setState({imageUrl: this.state.input})
+    const token = window.sessionStorage.getItem('token')
+
     fetch('http://localhost:3000/imageurl', 
     {
       method: 'post',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': token
+
       },
       body: JSON.stringify({input: this.state.input})
     })
@@ -104,7 +146,8 @@ class App extends React.Component {
             {
               method: 'PUT',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': token
                 // 'Content-Type': 'application/x-www-form-urlencoded',
               },
               body: JSON.stringify({ id: this.state.user.id })
@@ -129,19 +172,21 @@ class App extends React.Component {
 
   }
   calculateFaceLocation = (data) => {
-    const image = document.getElementById('imputimage');
-    const width = Number(image.width);
-    const height = Number(image.height);
-    return data.outputs[0].data.regions.map(box => {
-      const clarifaiFace = box.region_info.bounding_box;
-      return {
-        leftCol: clarifaiFace.left_col * width,
-        rightCol: width - (clarifaiFace.right_col * width),
-        topRow: clarifaiFace.top_row * height,
-        bottomRow: height - (clarifaiFace.bottom_row * height)
-      }
-    })
-   
+    if(data && data.outputs) {
+      const image = document.getElementById('imputimage');
+      const width = Number(image.width);
+      const height = Number(image.height);
+      return data.outputs[0].data.regions.map(box => {
+        const clarifaiFace = box.region_info.bounding_box;
+        return {
+          leftCol: clarifaiFace.left_col * width,
+          rightCol: width - (clarifaiFace.right_col * width),
+          topRow: clarifaiFace.top_row * height,
+          bottomRow: height - (clarifaiFace.bottom_row * height)
+        }
+      })
+  }
+  return []
   }
   displayFaceBox = (boxes) => {
     console.log(boxes);
@@ -159,7 +204,7 @@ class App extends React.Component {
     }
   }
   toggleModal = () => {
-    console.log(this.state.isProfileOpen)
+    // console.log(this.state.isProfileOpen)
     this.setState( prevState => {
       return {...prevState, isProfileOpen: !prevState.isProfileOpen}} )
   }
@@ -167,6 +212,10 @@ class App extends React.Component {
     console.log('save profile')
     this.setState({route:'home', isProfileOpen:false})
     
+  }
+  closeModal = () => {
+    console.log('kk');
+    this.setState({isProfileOpen:false})
   }
   render() {
     const { route, isSignedIn, input, imageUrl, boxes, isProfileOpen,user } = this.state
@@ -181,10 +230,10 @@ class App extends React.Component {
           <Navigation toggleModal={this.toggleModal} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
             {isProfileOpen && <Modal >
                   <Profile toggleModal={this.toggleModal} 
-                  isProfileOpen={isProfileOpen} 
-                  saveProfile={this.onSaveProfile}
-                   onRouteChange={this.onRouteChange}
-                   userInfo={this.state.user}
+                    isProfileOpen={isProfileOpen} 
+                    loadUser={this.loadUser}
+                    user={user}
+                    closeModal={this.toggleModal}
                    />
             </Modal> }
           {route === 'signin' ?
@@ -199,6 +248,7 @@ class App extends React.Component {
                   change={this.onInputChange}
                   text={input}
                   click={this.onButtonSubmit}
+                  token={this.state.user.token}
                 />
          
                 <FaceRecognition imageUrl={imageUrl} boxes={boxes} /> 

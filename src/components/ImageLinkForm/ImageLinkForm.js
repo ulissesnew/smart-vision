@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './ImageLinkForm.module.css'
 
-const ImageLinkForm = ({ text, change, click }) => {
+const ImageLinkForm = ({ text, change, click,token }) => {
     return (
         <form className={classes.form}>
             <p className=''>This Magic Brain will detect faces in your pictures. </p>
@@ -9,7 +9,7 @@ const ImageLinkForm = ({ text, change, click }) => {
             <div className={classes.inputs}>
                 <input
                     onChange={change}
-                    type='text'
+                    type='url'
                     placeholder='url of the image'
                     value={text}
                 />
